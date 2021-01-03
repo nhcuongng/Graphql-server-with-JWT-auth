@@ -2,7 +2,8 @@ import "reflect-metadata";
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolvers/User";
+import { createConnections } from 'typeorm';
+import { UserResolver } from "./resolvers/user.resolver";
 
 (async () => {
     const app = express();
@@ -12,6 +13,9 @@ import { UserResolver } from "./resolvers/User";
             resolvers: [UserResolver],
         })
     });
+
+    // check ormconfig.json if error
+    await createConnections();
 
     apolloServer.applyMiddleware({ app });
 
