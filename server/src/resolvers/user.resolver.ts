@@ -85,7 +85,4 @@ export class UserResolver {
       accessToken: createAccessToken(user)
     }
   }
-
-
-
 } 
