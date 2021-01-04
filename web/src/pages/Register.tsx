@@ -36,7 +36,7 @@ export const Register: React.FC<RouteComponentProps> = ({ history }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   )

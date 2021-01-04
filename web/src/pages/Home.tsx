@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
     <div>
       <p>Users:</p>
       <ul>
-        {data.users.map(({ email, id }) => <li>{id}: {email}</li>)}
+        {data.users.map(({ email, id }) => <li key={id}>{id}: {email}</li>)}
       </ul>
     </div>
   )

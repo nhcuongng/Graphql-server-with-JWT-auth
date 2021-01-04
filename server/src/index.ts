@@ -5,6 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from "type-graphql";
 import { createConnections } from 'typeorm';
 import cookiesParser from 'cookie-parser';
+import cors from 'cors';
 import { UserResolver } from "./resolvers/user.resolver";
 import { verify } from "jsonwebtoken";
 import { User } from "./entity/User";
@@ -12,6 +13,11 @@ import { createAccessToken, createRefeshToken, setTokenInCookie } from "./helper
 
 (async () => {
     const app = express();
+
+    app.use(cors({
+        origin: "http://localhost:3001",
+        credentials: true,
+    }))
 
     app.use(cookiesParser());
 
@@ -30,7 +36,7 @@ import { createAccessToken, createRefeshToken, setTokenInCookie } from "./helper
         }
 
         // token is valid
-        // and send back new accesstoken
+        // and send back new accesstoken 
         const user = await User.findOne({ id: payload.userId });
 
         if (!user) {
@@ -57,28 +63,10 @@ import { createAccessToken, createRefeshToken, setTokenInCookie } from "./helper
     // check ormconfig.json if error
     await createConnections();
 
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
 
     app.listen(3000, () => {
         console.log('express server is running')
     })
 
 })()
-
-// createConnection().then(async connection => {
-
-//     console.log("Inserting a new user into the database...");
-//     const user = new User();
-//     user.firstName = "Timber";
-//     user.lastName = "Saw";
-//     user.age = 25;
-//     await connection.manager.save(user);
-//     console.log("Saved a new user with id: " + user.id);
-
-//     console.log("Loading users from the database...");
-//     const users = await connection.manager.find(User);
-//     console.log("Loaded users: ", users);
-
-//     console.log("Here you can setup and run express/koa/any other framework.");
-
-// }).catch(error => console.log(error));
