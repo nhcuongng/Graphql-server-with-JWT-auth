@@ -49,7 +49,7 @@ import { createAccessToken, createRefeshToken, setTokenInCookie } from "./helper
 
         setTokenInCookie(res, createRefeshToken(user));
 
-        return res.send({ ok: false, accessToken: createAccessToken(user) });
+        return res.send({ ok: true, accessToken: createAccessToken(user) });
 
     })
     
